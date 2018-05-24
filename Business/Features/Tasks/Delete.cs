@@ -1,11 +1,11 @@
-﻿using FluentValidation;
+﻿using Business.Exceptions;
 using Business.Features.Results;
+using Business.Util.Extensions;
+using Data.Database;
+using FluentValidation;
 using MediatR;
 using System;
 using System.Threading.Tasks;
-using Data.Database;
-using Business.Exceptions;
-using Business.Util.Extensions;
 
 namespace Business.Features.Tasks
 {

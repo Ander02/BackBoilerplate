@@ -10,6 +10,8 @@ namespace Business.Util.Extensions
 
         public static string ToJson(this object obj) => JsonConvert.SerializeObject(obj);
 
+        public static string ToJson(this object obj, JsonSerializerSettings settings) => JsonConvert.SerializeObject(obj, settings);
+        
         public static void UpdatePropsByReflection(this object update, object data)
         {
             //Pegar todos os atributos de data

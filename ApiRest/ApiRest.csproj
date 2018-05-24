@@ -5,8 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Infraestructure\Filters\" />
-    <Folder Include="Infraestructure\Middlewares\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
