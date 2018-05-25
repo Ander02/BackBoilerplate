@@ -36,8 +36,6 @@ namespace Business.Features.Users
 
             protected override async Task<UserResult.Full> HandleCore(Query query)
             {
-                if (query == null) throw new BadRequestException("The argument is null");
-
                 var user = await _db.Users.Include(u => u.Tasks).Where(u => u.Id.Equals(query.Id)).FirstOrDefaultAsync();
 
                 if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + query.Id + " doesn't exist");

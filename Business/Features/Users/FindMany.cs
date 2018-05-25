@@ -41,8 +41,6 @@ namespace Business.Features.Users
 
             protected override async Task<List<UserResult.Full>> HandleCore(Query query)
             {
-                if (query == null) throw new BadRequestException("The argument is null");
-
                 var dbQuery = _db.Users.Include(u => u.Tasks).AsQueryable();
 
                 if (!query.ShowDeleteds) dbQuery = dbQuery.Where(u => u.DeletedAt.IsDefaultDateTime()).AsQueryable();

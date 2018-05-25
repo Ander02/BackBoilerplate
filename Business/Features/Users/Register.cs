@@ -41,8 +41,6 @@ namespace Business.Features.Users
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
             {
-                if (command == null) throw new BadRequestException("The argument is null");
-
                 var user = new User()
                 {
                     Age = command.Age,

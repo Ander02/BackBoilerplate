@@ -38,8 +38,6 @@ namespace Business.Features.Tasks
 
             protected override async Task<TaskResult.Full> HandleCore(Command command)
             {
-                if (command == null) throw new BadRequestException("The argument is null");
-
                 var user = await _db.Users.FindAsync(command.UserId);
 
                 if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + command.UserId + " doesn't exist");
