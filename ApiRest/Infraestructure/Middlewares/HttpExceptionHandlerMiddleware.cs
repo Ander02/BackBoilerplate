@@ -1,6 +1,7 @@
 ﻿using Business.Exceptions;
 using Business.Util.Extensions;
 using Microsoft.AspNetCore.Http;
+using System;
 using System.Threading.Tasks;
 
 namespace ApiRest.Infraestructure.Middlewares
@@ -22,6 +23,10 @@ namespace ApiRest.Infraestructure.Middlewares
             catch (BaseHttpException e)
             {
                 await context.MakeErrorResponse(e.StatusCode, (string)e.Body);
+            }
+            catch (Exception e)
+            {
+                await context.MakeErrorResponse(400, e.Message);
             }
         }
     }

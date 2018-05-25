@@ -2,7 +2,7 @@
 
 namespace Data.Domain
 {
-    public class Task
+    public class Task : IDomain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

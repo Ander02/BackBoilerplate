@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Data.Domain
 {
-    public class User
+    public class User : IDomain
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

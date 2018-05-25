@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Business.Features.Results;
 using Data.Database;
 using Data.Domain;
@@ -33,10 +34,12 @@ namespace Business.Features.Users
         public class Handler : AsyncRequestHandler<Command, UserResult.Full>
         {
             private readonly Db _db;
+            private readonly IMapper _mapper;
 
-            public Handler(Db db)
+            public Handler(Db db, IMapper mapper)
             {
                 _db = db;
+                _mapper = mapper;
             }
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
@@ -50,10 +53,13 @@ namespace Business.Features.Users
                     CreatedAt = DateTime.Now
                 };
 
+                //var user = _mapper.Map<User>(command);
+
                 await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();
 
                 return new UserResult.Full(user);
+                //return _mapper.Map<UserResult.Full>(user);
             }
         }
     }

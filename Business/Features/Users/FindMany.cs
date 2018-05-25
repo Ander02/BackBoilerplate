@@ -2,6 +2,7 @@
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
+using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -43,18 +44,18 @@ namespace Business.Features.Users
             {
                 var dbQuery = _db.Users.Include(u => u.Tasks).AsQueryable();
 
-                if (!query.ShowDeleteds) dbQuery = dbQuery.Where(u => u.DeletedAt.IsDefaultDateTime()).AsQueryable();
+                if (!query.ShowDeleteds) dbQuery = dbQuery.ExcludeDeleteds();
 
-                if (query.Name != null) dbQuery = dbQuery.Where(u => u.Name.Contains(query.Name.RemoveAccentuation()));
+                if (query.Name != null) dbQuery = dbQuery.WhereNameContains(query.Name);
 
-                if (query.Email != null) dbQuery = dbQuery.Where(u => u.Email.Contains(query.Email.RemoveAccentuation()));
+                if (query.Email != null) dbQuery = dbQuery.WhereEmailEquals(query.Email);
 
-                if (query.Age.HasValue) dbQuery = dbQuery.Where(u => u.Age == query.Age.Value);
+                if (query.Age.HasValue) dbQuery = dbQuery.WhereAgeEquals(query.Age.Value);
 
-                if (query.TaskId.HasValue) dbQuery = dbQuery.Where(u => u.Tasks.Select(t => t.Id).Contains(query.TaskId.Value));
+                if (query.TaskId.HasValue) dbQuery = dbQuery.WhereContainsTask(query.TaskId.Value);
 
                 dbQuery = dbQuery.OrderBy(u => u.Name);
-                dbQuery = dbQuery.Skip(query.Page * query.Limit).Take(query.Limit);
+                dbQuery = dbQuery.PaginateQuery(query.Page, query.Limit);
 
                 return (await dbQuery.ToListAsync()).Select(u => new UserResult.Full(u)).ToList();
             }
