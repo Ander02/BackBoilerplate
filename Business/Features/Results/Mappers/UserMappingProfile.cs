@@ -10,11 +10,11 @@ namespace Business.Features.Results.Mappers
     {
         public UserMappingProfile()
         {
-            CreateMap<User, UserResult.Full>().ForAllMembers(config => { });
+            CreateMap<User, UserResult.Full>();
 
-            CreateMap<User, UserResult.Simple>().ForAllMembers(config => { });
+            CreateMap<User, UserResult.Simple>();
 
-            CreateMap<User, Users.Register.Command>().ForAllMembers(config => { });
+            CreateMap<Users.Register.Command, User>();            
         }
     }
 }

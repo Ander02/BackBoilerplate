@@ -44,22 +44,23 @@ namespace Business.Features.Users
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
             {
-                var user = new User()
-                {
-                    Age = command.Age,
-                    Name = command.Name,
-                    Email = command.Email,
-                    Password = command.Password,
-                    CreatedAt = DateTime.Now
-                };
+                //var user = new User()
+                //{
+                //    Age = command.Age,
+                //    Name = command.Name,
+                //    Email = command.Email,
+                //    Password = command.Password,
+                //    CreatedAt = DateTime.Now
+                //};
 
-                //var user = _mapper.Map<User>(command);
+                var user = _mapper.Map<User>(command);
 
                 await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();
 
-                return new UserResult.Full(user);
-                //return _mapper.Map<UserResult.Full>(user);
+                //return new UserResult.Full(user);
+                return _mapper.Map<UserResult.Full>(user);
+
             }
         }
     }
