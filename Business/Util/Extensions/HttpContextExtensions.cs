@@ -14,6 +14,5 @@ namespace Business.Util.Extensions
             byte[] buffer = Encoding.UTF8.GetBytes((new { Error = error }).ToJson());
             await context.Response.Body.WriteAsync(buffer, 0, buffer.Length);
         }
-
     }
 }

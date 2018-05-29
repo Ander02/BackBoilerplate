@@ -45,6 +45,7 @@ namespace Business.Features.Users
             protected override async Task<UserResult.Full> HandleCore(Command command)
             {
                 var user = _mapper.Map<User>(command);
+                user.CreatedAt = DateTime.Now;
 
                 await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();

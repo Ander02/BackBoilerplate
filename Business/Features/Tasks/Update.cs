@@ -3,6 +3,7 @@ using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
+using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using System;
@@ -15,7 +16,7 @@ namespace Business.Features.Tasks
         public class Command : IRequest<TaskResult.Full>
         {
             public Guid Id { get; set; }
-            public string Name { get; set; }
+            public string Title { get; set; }
             public string Description { get; set; }
         }
 
@@ -23,7 +24,7 @@ namespace Business.Features.Tasks
         {
             public CommandValidator()
             {
-                RuleFor(t => t.Name).NotEmpty().NotNull();
+                RuleFor(t => t.Title).NotEmpty().NotNull();
                 RuleFor(t => t.Description).NotEmpty().NotNull();
             }
         }
@@ -45,7 +46,7 @@ namespace Business.Features.Tasks
 
                 if (task == null) throw new NotFoundException("The " + nameof(task) + " with id: " + command.Id + " doesn't exist");
 
-                if (!task.DeletedAt.IsDefaultDateTime()) throw new BadRequestException("The " + nameof(task) + " is deleted");
+                if (task.IsDeleted()) throw new BadRequestException("The " + nameof(task) + " is deleted");
 
                 //task.Name = command.Name ?? task.Name;
                 //task.Description = command.Description ?? task.Description;

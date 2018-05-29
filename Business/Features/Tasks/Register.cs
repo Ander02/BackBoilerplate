@@ -14,7 +14,7 @@ namespace Business.Features.Tasks
         public class Command : IRequest<TaskResult.Full>
         {
             public Guid UserId { get; set; }
-            public string Name { get; set; }
+            public string Title { get; set; }
             public string Description { get; set; }
         }
 
@@ -23,7 +23,7 @@ namespace Business.Features.Tasks
             public CommandValidator()
             {
                 RuleFor(u => u.UserId).NotEmpty().NotNull();
-                RuleFor(u => u.Name).NotEmpty().NotNull();
+                RuleFor(u => u.Title).NotEmpty().NotNull();
                 RuleFor(u => u.Description).NotEmpty().NotNull();
             }
         }
@@ -46,13 +46,8 @@ namespace Business.Features.Tasks
 
                 if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + command.UserId + " doesn't exist");
 
-                var task = new Data.Domain.Task()
-                {
-                    User = user,
-                    Name = command.Name,
-                    Description = command.Description,
-                    CreatedAt = DateTime.Now
-                };
+                var task = _mapper.Map<Data.Domain.Task>(command);
+                task.CreatedAt = DateTime.Now;
 
                 await _db.Tasks.AddAsync(task);
                 await _db.SaveChangesAsync();

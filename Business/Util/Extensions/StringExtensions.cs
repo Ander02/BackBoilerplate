@@ -15,9 +15,9 @@ namespace Business.Util.Extensions
 
             for (int i = 0; i < normalizedString.Length; i++)
             {
-                char c = normalizedString[i];
+                char character = normalizedString[i];
 
-                if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark) stringBuilder.Append(c);
+                if (CharUnicodeInfo.GetUnicodeCategory(character) != UnicodeCategory.NonSpacingMark) stringBuilder.Append(character);
             }
 
             return stringBuilder.ToString();

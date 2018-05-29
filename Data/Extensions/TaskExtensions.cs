@@ -4,8 +4,5 @@ using System.Text;
 
 namespace Data.Extensions
 {
-    public static class TaskExtensions
-    {
-
-    }
+    public static class TaskExtensions { }
 }

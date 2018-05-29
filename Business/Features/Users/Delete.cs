@@ -3,6 +3,7 @@ using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
+using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using System;
@@ -42,7 +43,7 @@ namespace Business.Features.Users
 
                 if (user == null) throw new NotFoundException("The user with Id: " + command.Id + " doesn't exist");
 
-                if (!user.DeletedAt.IsDefaultDateTime()) throw new BadRequestException("The " + nameof(user) + " has already been deleted");
+                if (user.IsDeleted()) throw new BadRequestException("The " + nameof(user) + " has already been deleted");
 
                 user.DeletedAt = DateTime.Now;
                 await _db.SaveChangesAsync();

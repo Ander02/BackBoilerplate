@@ -47,7 +47,7 @@ namespace Business.Features.Users
             {
                 var dbQuery = _db.Users.Include(u => u.Tasks).AsQueryable();
 
-                if (!query.ShowDeleteds) dbQuery = dbQuery.ExcludeDeleteds();
+                if (!query.ShowDeleteds) dbQuery = dbQuery.NoDeleteds();
 
                 if (query.Name != null) dbQuery = dbQuery.Where(u => u.Name.Contains(query.Name));
 

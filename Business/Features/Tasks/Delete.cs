@@ -3,6 +3,7 @@ using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
+using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using System;
@@ -42,7 +43,7 @@ namespace Business.Features.Tasks
 
                 if (task == null) throw new NotFoundException("The " + nameof(task) + " with Id: " + command.Id + " doesn't exist");
 
-                if (!task.DeletedAt.IsDefaultDateTime()) throw new BadRequestException("The " + nameof(task) + " has already been deleted");
+                if (task.IsDeleted()) throw new BadRequestException("The " + nameof(task) + " has already been deleted");
 
                 task.DeletedAt = DateTime.Now;
                 await _db.SaveChangesAsync();

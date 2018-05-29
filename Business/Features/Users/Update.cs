@@ -3,6 +3,7 @@ using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
+using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using System;
@@ -24,7 +25,7 @@ namespace Business.Features.Users
         {
             public CommandValidator()
             {
-                RuleFor(u => u.Id).NotEmpty().NotNull();
+                //RuleFor(u => u.Id).NotEmpty().NotNull();
                 RuleFor(u => u.Name).NotEmpty().NotNull();
                 RuleFor(u => u.Email).NotEmpty().NotNull().EmailAddress();
                 RuleFor(u => u.Age).NotEmpty().NotNull().GreaterThan(0);
@@ -48,7 +49,7 @@ namespace Business.Features.Users
 
                 if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + command.Id + " doesn't exist");
 
-                if (!user.DeletedAt.IsDefaultDateTime()) throw new BadRequestException("The" + nameof(user) + "is deleted");
+                if (user.IsDeleted()) throw new BadRequestException("The " + nameof(user) + " is deleted");
 
                 //user.Name = command.Name ?? user.Name;
                 //user.Email = command.Email ?? user.Email;
