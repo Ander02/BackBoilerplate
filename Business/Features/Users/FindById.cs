@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Business.Features.Results;
 using Data.Database;
 using FluentValidation;
@@ -27,10 +28,12 @@ namespace Business.Features.Users
 
         public class Handler : AsyncRequestHandler<Query, UserResult.Full>
         {
+            private readonly IMapper _mapper;
             private readonly Db _db;
 
-            public Handler(Db db)
+            public Handler(IMapper mapper, Db db)
             {
+                _mapper = mapper;
                 _db = db;
             }
 
@@ -40,7 +43,7 @@ namespace Business.Features.Users
 
                 if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + query.Id + " doesn't exist");
 
-                return new UserResult.Full(user);
+                return _mapper.Map<UserResult.Full>(user);
             }
         }
     }

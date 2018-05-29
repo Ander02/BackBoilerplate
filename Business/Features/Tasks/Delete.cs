@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
@@ -26,10 +27,12 @@ namespace Business.Features.Tasks
 
         public class Handler : AsyncRequestHandler<Command, TaskResult.Full>
         {
+            private readonly IMapper _mapper;
             private readonly Db _db;
 
-            public Handler(Db db)
+            public Handler(IMapper mapper, Db db)
             {
+                _mapper = mapper;
                 _db = db;
             }
 
@@ -44,7 +47,7 @@ namespace Business.Features.Tasks
                 task.DeletedAt = DateTime.Now;
                 await _db.SaveChangesAsync();
 
-                return new TaskResult.Full(task);
+                return _mapper.Map<TaskResult.Full>(task);
             }
         }
     }

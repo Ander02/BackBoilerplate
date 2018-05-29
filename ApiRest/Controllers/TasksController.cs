@@ -27,7 +27,7 @@ namespace ApiRest.Features.Tasks
         }
 
         [HttpGet]
-        public async Task<List<TaskResult.Full>> FindAll([FromQuery] FindAll.Query query) => await _mediator.Send(query);
+        public async Task<List<TaskResult.Full>> FindAll([FromQuery] FindMany.Query query) => await _mediator.Send(query);
 
         [HttpGet("{id}")]
         public async Task<TaskResult.Full> FindById([FromRoute] FindById.Query query) => await _mediator.Send(query);

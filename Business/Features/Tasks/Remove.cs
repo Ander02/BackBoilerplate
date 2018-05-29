@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Data.Database;
 using FluentValidation;
 using MediatR;
@@ -24,10 +25,12 @@ namespace Business.Features.Tasks
 
         public class Handler : AsyncRequestHandler<Command, bool>
         {
+            private readonly IMapper _mapper;
             private readonly Db _db;
 
-            public Handler(Db db)
+            public Handler(IMapper mapper, Db db)
             {
+                _mapper = mapper;
                 _db = db;
             }
 

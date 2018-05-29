@@ -19,28 +19,28 @@ namespace Business.Features.Results
 
             public Simple() { }
 
-            public Simple(User user)
-            {
-                this.Id = user.Id;
-                this.Name = user.Name;
-                this.Password = user.Password;
-                this.Email = user.Email;
-                this.Age = user.Age;
-                this.CreatedAt = user.CreatedAt;
-                this.DeletedAt = user.DeletedAt;
-            }
+            //public Simple(User user)
+            //{
+            //    this.Id = user.Id;
+            //    this.Name = user.Name;
+            //    this.Password = user.Password;
+            //    this.Email = user.Email;
+            //    this.Age = user.Age;
+            //    this.CreatedAt = user.CreatedAt;
+            //    this.DeletedAt = user.DeletedAt;
+            //}
         }
 
         public class Full : Simple
         {
             public List<TaskResult.Simple> Tasks { get; set; } = new List<TaskResult.Simple>();
 
-            public Full() { }
+            //public Full() { }
 
-            public Full(User user) : base(user)
-            {
-                this.Tasks = user.Tasks?.Select(t => new TaskResult.Simple(t)).ToList();
-            }
+            //public Full(User user) : base(user)
+            //{
+            //    this.Tasks = user.Tasks?.Select(t => new TaskResult.Simple(t)).ToList();
+            //}
         }
     }
 }

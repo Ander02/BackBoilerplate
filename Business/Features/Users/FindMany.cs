@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Business.Features.Results;
 using Business.Util.Extensions;
 using Data.Database;
@@ -33,10 +34,12 @@ namespace Business.Features.Users
 
         public class Handler : AsyncRequestHandler<Query, List<UserResult.Full>>
         {
+            private readonly IMapper _mapper;
             private readonly Db _db;
 
-            public Handler(Db db)
+            public Handler(IMapper mapper, Db db)
             {
+                _mapper = mapper;
                 _db = db;
             }
 
@@ -46,18 +49,18 @@ namespace Business.Features.Users
 
                 if (!query.ShowDeleteds) dbQuery = dbQuery.ExcludeDeleteds();
 
-                if (query.Name != null) dbQuery = dbQuery.WhereNameContains(query.Name);
+                if (query.Name != null) dbQuery = dbQuery.Where(u => u.Name.Contains(query.Name));
 
-                if (query.Email != null) dbQuery = dbQuery.WhereEmailEquals(query.Email);
+                if (query.Email != null) dbQuery = dbQuery.Where(u => u.Email.Equals(query.Email));
 
-                if (query.Age.HasValue) dbQuery = dbQuery.WhereAgeEquals(query.Age.Value);
+                if (query.Age.HasValue) dbQuery = dbQuery.Where(u => u.Age == query.Age.Value);
 
                 if (query.TaskId.HasValue) dbQuery = dbQuery.WhereContainsTask(query.TaskId.Value);
 
                 dbQuery = dbQuery.OrderBy(u => u.Name);
                 dbQuery = dbQuery.PaginateQuery(query.Page, query.Limit);
 
-                return (await dbQuery.ToListAsync()).Select(u => new UserResult.Full(u)).ToList();
+                return (await dbQuery.ToListAsync()).Select(user => _mapper.Map<UserResult.Full>(user)).ToList();
             }
         }
     }

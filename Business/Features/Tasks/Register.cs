@@ -1,4 +1,5 @@
-﻿using Business.Exceptions;
+﻿using AutoMapper;
+using Business.Exceptions;
 using Business.Features.Results;
 using Data.Database;
 using FluentValidation;
@@ -29,12 +30,15 @@ namespace Business.Features.Tasks
 
         public class Handler : AsyncRequestHandler<Command, TaskResult.Full>
         {
+            private readonly IMapper _mapper;
             private readonly Db _db;
 
-            public Handler(Db db)
+            public Handler(IMapper mapper, Db db)
             {
+                _mapper = mapper;
                 _db = db;
             }
+
 
             protected override async Task<TaskResult.Full> HandleCore(Command command)
             {
@@ -53,7 +57,7 @@ namespace Business.Features.Tasks
                 await _db.Tasks.AddAsync(task);
                 await _db.SaveChangesAsync();
 
-                return new TaskResult.Full(task);
+                return _mapper.Map<TaskResult.Full>(task);
             }
         }
     }
