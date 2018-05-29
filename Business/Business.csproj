@@ -18,4 +18,9 @@
     <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\Authentication\Login\" />
+    <Folder Include="Features\Authentication\Logoff\" />
+  </ItemGroup>
+
 </Project>

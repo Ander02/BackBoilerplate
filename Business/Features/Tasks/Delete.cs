@@ -40,7 +40,7 @@ namespace Business.Features.Tasks
             {
                 var task = await _db.Tasks.FindAsync(command.Id);
 
-                if (task == null) throw new NotFoundException("The " + nameof(task) + " with Id: " + command.Id + " doesn't exist");
+                if (task is null) throw new NotFoundException("The " + nameof(task) + " with Id: " + command.Id + " doesn't exist");
 
                 if (task.IsDeleted()) throw new BadRequestException("The " + nameof(task) + " has already been deleted");
 

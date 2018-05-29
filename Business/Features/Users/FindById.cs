@@ -41,7 +41,7 @@ namespace Business.Features.Users
             {
                 var user = await _db.Users.Include(u => u.Tasks).Where(u => u.Id.Equals(query.Id)).FirstOrDefaultAsync();
 
-                if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + query.Id + " doesn't exist");
+                if (user is null) throw new NotFoundException("The " + nameof(user) + " with id: " + query.Id + " doesn't exist");
 
                 return _mapper.Map<UserResult.Full>(user);
             }

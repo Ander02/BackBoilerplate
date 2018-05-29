@@ -14,7 +14,6 @@ namespace Data.Domain
         public DateTime DeletedAt { get; set; }
 
         #region Navigation Props
-
         public virtual ICollection<Task> Tasks { get; set; }
         #endregion
     }

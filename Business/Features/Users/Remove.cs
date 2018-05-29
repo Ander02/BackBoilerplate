@@ -35,7 +35,7 @@ namespace Business.Features.Users
             {
                 var user = await _db.Users.FindAsync(command.Id);
 
-                if (user == null) throw new NotFoundException("The " + nameof(user) + " with Id: " + command.Id + " doesn't exist");
+                if (user is null) throw new NotFoundException("The " + nameof(user) + " with Id: " + command.Id + " doesn't exist");
 
                 _db.Users.Remove(user);
                 await _db.SaveChangesAsync();

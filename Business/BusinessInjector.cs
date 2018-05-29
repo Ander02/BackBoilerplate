@@ -12,8 +12,6 @@ namespace Business
         {
             services.AddAutoMapper((config) =>
             {
-                //config.AddProfile<UserMappingProfile>();
-                //config.AddProfile<TaskMappingProfile>();
                 config.AddProfiles(typeof(BusinessInjector));
             });
 

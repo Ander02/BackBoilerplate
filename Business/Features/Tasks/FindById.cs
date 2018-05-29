@@ -42,7 +42,7 @@ namespace Business.Features.Tasks
             {
                 var task = await _db.Tasks.Include(t => t.User).Where(t => t.Id.Equals(query.Id)).FirstOrDefaultAsync();
 
-                if (task == null) throw new NotFoundException("The " + nameof(task) + " with id: " + query.Id + " doesn't exist");
+                if (task is null) throw new NotFoundException("The " + nameof(task) + " with id: " + query.Id + " doesn't exist");
 
                 return _mapper.Map<TaskResult.Full>(task);
             }

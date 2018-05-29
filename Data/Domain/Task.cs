@@ -12,7 +12,6 @@ namespace Data.Domain
         public DateTime DeletedAt { get; set; }
 
         #region Navigation Props
-
         public virtual User User { get; set; }
         #endregion
     }

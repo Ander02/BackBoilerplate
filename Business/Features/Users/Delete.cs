@@ -40,7 +40,7 @@ namespace Business.Features.Users
             {
                 var user = await _db.Users.FindAsync(command.Id);
 
-                if (user == null) throw new NotFoundException("The user with Id: " + command.Id + " doesn't exist");
+                if (user is null) throw new NotFoundException("The user with Id: " + command.Id + " doesn't exist");
 
                 if (user.IsDeleted()) throw new BadRequestException("The " + nameof(user) + " has already been deleted");
 
