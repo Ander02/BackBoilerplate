@@ -7,15 +7,12 @@ namespace Data
 {
     public class DataInjector
     {
-        private static string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=TodoList;Integrated Security=True";
+        private const string _connectionString = "Data Source=.\\SQLEXPRESS;Initial Catalog=TodoList;Integrated Security=True";
 
         public static void RegisterServices(IConfiguration configuration, IServiceCollection services)
         {
             //DbContext
-            services.AddDbContext<Db>((options) =>
-            {
-                options.UseSqlServer(_connectionString);
-            });
+            services.AddDbContext<Db>((options) => { options.UseSqlServer(_connectionString); });
         }
     }
 }
