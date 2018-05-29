@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
+using Utility.Services;
 
 namespace Data.Domain
 {
-    public class User : IDomain
+    public class User : IdentityUser<Guid>, IDomain
     {
-        public Guid Id { get; set; }
         public string Name { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
+        public string PasswordSalt { get; set; }
         public int Age { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime DeletedAt { get; set; }
@@ -16,5 +16,18 @@ namespace Data.Domain
         #region Navigation Props
         public virtual ICollection<Task> Tasks { get; set; }
         #endregion
+
+        public void SetPassword(string password)
+        {
+            using (EncryptService service = new EncryptService())
+            {
+                (this.PasswordHash, this.PasswordSalt) = service.Encrypt(password);
+            }
+        }
+
+        public bool IsPasswordEqualsTo(string password)
+        {
+            using (EncryptService service = new EncryptService()) return service.Encrypt(password, this.PasswordSalt).Equals(this.PasswordHash);
+        }
     }
 }

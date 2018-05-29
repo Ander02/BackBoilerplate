@@ -7,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using System;
 using System.Threading.Tasks;
+using Utility.Extensions;
 
 namespace Business.Features.Users
 {
@@ -44,8 +45,14 @@ namespace Business.Features.Users
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
             {
-                var user = _mapper.Map<User>(command);
-                user.CreatedAt = DateTime.Now;
+                var user = new User
+                {
+                    Age = command.Age,
+                    Email = command.Email,
+                    Name = command.Name,
+                    CreatedAt = DateTime.Now
+                };
+                user.SetPassword(command.Password);
 
                 await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();

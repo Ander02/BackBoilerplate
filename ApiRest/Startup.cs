@@ -44,6 +44,7 @@ namespace ApiRest
         {
             if (env.IsDevelopment())
             {
+                app.UseDatabaseErrorPage();
                 app.UseDeveloperExceptionPage();
             }
 
