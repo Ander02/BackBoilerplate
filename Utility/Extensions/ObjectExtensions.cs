@@ -20,18 +20,21 @@ namespace Utility.Extensions
             //Pegar todos os atributos em update que tem em data
             var targetProps = update.GetType().GetProperties().Intersect(dataProps, new EqualityComparerPropertyInfoName()).OrderBy(p => p.Name).ToArray();
 
-            //Para cada atributo
-            for (int i = 0; i < dataProps.Length; i++)
+            if (targetProps.Count().Equals(dataProps.Count()))
             {
-                var targetProp = targetProps[i];
-                var dataProp = dataProps[i];
-
-                //Se ambos possuem o mesmo nome e tipo
-                if (targetProp.Name.Equals(dataProp.Name) && targetProp.GetType().Name.Equals(dataProp.GetType().Name))
+                //Para cada atributo
+                for (int i = 0; i < dataProps.Length; i++)
                 {
-                    var dataValue = dataProp.GetValue(data);
-                    //Se o valor não é nulo, atualiza
-                    if (dataValue != null) targetProp.SetMethod.Invoke(update, new object[] { dataValue });
+                    var targetProp = targetProps[i];
+                    var dataProp = dataProps[i];
+
+                    //Se ambos possuem o mesmo nome e tipo
+                    if (targetProp.Name.Equals(dataProp.Name) && targetProp.GetType().Name.Equals(dataProp.GetType().Name))
+                    {
+                        var dataValue = dataProp.GetValue(data);
+                        //Se o valor não é nulo, atualiza
+                        if (dataValue != null) targetProp.SetMethod.Invoke(update, new object[] { dataValue });
+                    }
                 }
             }
         }
