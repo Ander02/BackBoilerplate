@@ -44,9 +44,9 @@ namespace Business.Features.Tasks
             {
                 var user = await _db.Users.FindAsync(command.UserId);
 
-                if (user == null) throw new NotFoundException("The " + nameof(user) + " with id: " + command.UserId + " doesn't exist");
-
                 var task = _mapper.Map<Data.Domain.Task>(command);
+
+                task.User = user ?? throw new NotFoundException("The " + nameof(user) + " with id: " + command.UserId + " doesn't exist");
                 task.CreatedAt = DateTime.Now;
 
                 await _db.Tasks.AddAsync(task);

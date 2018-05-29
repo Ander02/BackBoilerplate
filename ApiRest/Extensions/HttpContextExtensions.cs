@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.Extensions;
 
-namespace Business.Util.Extensions
+namespace ApiRest.Extensions
 {
     public static class HttpContextExtensions
     {

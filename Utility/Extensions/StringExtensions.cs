@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace Business.Util.Extensions
+namespace Utility.Extensions
 {
     public static class StringExtensions
     {

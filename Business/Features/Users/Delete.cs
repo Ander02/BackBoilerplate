@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Business.Exceptions;
 using Business.Features.Results;
-using Business.Util.Extensions;
 using Data.Database;
 using Data.Extensions;
 using FluentValidation;

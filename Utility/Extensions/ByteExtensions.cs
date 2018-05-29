@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Business.Util.Extensions
+namespace Utility.Extensions
 {
     public static class ByteExtensions
     {

@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Business.Exceptions;
 using Business.Features.Results;
-using Business.Util.Extensions;
 using Data.Database;
 using Data.Extensions;
 using FluentValidation;
 using MediatR;
 using System;
 using System.Threading.Tasks;
+using Utility.Extensions;
 
 namespace Business.Features.Users
 {

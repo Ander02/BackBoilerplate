@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 
-namespace Business.Util.Comparators
+namespace Utility.Comparators
 {
     public class EqualityComparerPropertyInfoName : IEqualityComparer<PropertyInfo>
     {

@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{1EF6917E-550B-426B-B83D-7FAA44840307}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiRest", "ApiRest\ApiRest.csproj", "{260128FA-7A02-441E-A3CD-9C7FF97172D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiRest", "ApiRest\ApiRest.csproj", "{260128FA-7A02-441E-A3CD-9C7FF97172D4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "Utility\Utility.csproj", "{55184FAC-767C-4691-8F6C-EAC2884DE415}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{260128FA-7A02-441E-A3CD-9C7FF97172D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{260128FA-7A02-441E-A3CD-9C7FF97172D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{260128FA-7A02-441E-A3CD-9C7FF97172D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55184FAC-767C-4691-8F6C-EAC2884DE415}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55184FAC-767C-4691-8F6C-EAC2884DE415}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55184FAC-767C-4691-8F6C-EAC2884DE415}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55184FAC-767C-4691-8F6C-EAC2884DE415}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

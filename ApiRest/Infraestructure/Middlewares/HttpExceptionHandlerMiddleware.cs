@@ -1,5 +1,5 @@
-﻿using Business.Exceptions;
-using Business.Util.Extensions;
+﻿using ApiRest.Extensions;
+using Business.Exceptions;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;

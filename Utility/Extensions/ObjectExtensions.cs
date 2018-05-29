@@ -1,8 +1,8 @@
-﻿using Business.Util.Comparators;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System.Linq;
+using Utility.Comparators;
 
-namespace Business.Util.Extensions
+namespace Utility.Extensions
 {
     public static class ObjectExtensions
     {
@@ -11,7 +11,7 @@ namespace Business.Util.Extensions
         public static string ToJson(this object obj) => JsonConvert.SerializeObject(obj);
 
         public static string ToJson(this object obj, JsonSerializerSettings settings) => JsonConvert.SerializeObject(obj, settings);
-        
+
         public static void UpdatePropsByReflection(this object update, object data)
         {
             //Pegar todos os atributos de data

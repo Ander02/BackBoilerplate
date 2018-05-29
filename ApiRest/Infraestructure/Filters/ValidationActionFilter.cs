@@ -1,8 +1,8 @@
-﻿using Business.Util.Extensions;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using System.Linq;
+using Utility.Extensions;
 
 namespace ApiRest.Infraestructure.Filters
 {
