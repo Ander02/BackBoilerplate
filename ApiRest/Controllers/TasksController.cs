@@ -39,6 +39,9 @@ namespace ApiRest.Features.Tasks
             return await _mediator.Send(command);
         }
 
+        [HttpPatch("complete/{id}")]
+        public async Task<TaskResult.Full> ToogleComplete([FromRoute] ToogleComplete.Command command) => await _mediator.Send(command);
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Delete.Command command)
         {
@@ -51,7 +54,6 @@ namespace ApiRest.Features.Tasks
         public async Task<IActionResult> Remove([FromRoute] Remove.Command command)
         {
             await _mediator.Send(command);
-
             return NoContent();
         }
     }

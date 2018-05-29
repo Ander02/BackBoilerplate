@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Utility.Extensions;
 
 namespace Business.Features.Tasks
 {
@@ -38,8 +39,9 @@ namespace Business.Features.Tasks
                 if (task == null) throw new NotFoundException("The " + nameof(task) + " with id: " + command.Id + " doesn't exist");
 
                 if (task.IsDeleted()) throw new BadRequestException("The " + nameof(task) + " is deleted");
-
-
+                
+                if (task.CompletedAt.IsDefaultDateTime()) task.CompletedAt = DateTime.Now;
+                else task.CompletedAt = default(DateTime);
 
                 await _db.SaveChangesAsync();
 
