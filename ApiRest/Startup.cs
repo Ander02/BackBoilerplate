@@ -37,6 +37,14 @@ namespace ApiRest
             BusinessInjector.RegisterServices(Configuration, services);
 
             DataInjector.RegisterServices(Configuration, services);
+
+            services.AddAuthorization((options) =>
+            {
+                options.AddPolicy("Admin", (policy) =>
+                {
+                    
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

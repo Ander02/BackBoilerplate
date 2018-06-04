@@ -78,7 +78,7 @@ namespace Business.Features.Authentication.Login
                 var claims = new[]
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 }.Union(userClaims);
 
                 //Create Token
@@ -89,7 +89,7 @@ namespace Business.Features.Authentication.Login
                 var securityToken = new JwtSecurityToken(_tokenIssuer,
                                                  _tokenAudience,
                                                  claims,
-                                                 expires: DateTime.Now.AddHours(3),
+                                                 expires: DateTime.Now.AddHours(1),
                                                  signingCredentials: credentials);
 
                 return new Result

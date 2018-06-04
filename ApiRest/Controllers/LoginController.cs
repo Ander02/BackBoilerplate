@@ -2,6 +2,7 @@
 using Business.Features.Results;
 using Business.Features.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace ApiRest.Features.Tasks
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<Login.Result> Login([FromBody] Login.Command command) => await _mediator.Send(command);
     }
 }
