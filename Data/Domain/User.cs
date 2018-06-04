@@ -17,17 +17,17 @@ namespace Data.Domain
         public virtual ICollection<Task> Tasks { get; set; }
         #endregion
 
-        public void SetPassword(string password)
-        {
-            using (EncryptService service = new EncryptService())
-            {
-                (this.PasswordHash, this.PasswordSalt) = service.Encrypt(password);
-            }
-        }
+        //public void SetPassword(string password)
+        //{
+        //    using (EncryptService service = new EncryptService())
+        //    {
+        //        (this.PasswordHash, this.PasswordSalt) = service.Encrypt(password);
+        //    }
+        //}
 
-        public bool IsPasswordEqualsTo(string password)
-        {
-            using (EncryptService service = new EncryptService()) return service.Encrypt(password, this.PasswordSalt).Equals(this.PasswordHash);
-        }
+        //public bool IsPasswordEqualsTo(string password)
+        //{
+        //    using (EncryptService service = new EncryptService()) return service.Encrypt(password, this.PasswordSalt).Equals(this.PasswordHash);
+        //}
     }
 }

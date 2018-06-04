@@ -1,4 +1,5 @@
 ﻿using Data.Domain;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,5 +15,6 @@ namespace Data.Extensions
         public static IQueryable<T> NoDeleteds<T>(this IQueryable<T> query) where T : IDomain => query.Where(a => a.DeletedAt.Equals(default(DateTime)));
 
         public static IQueryable<T> PaginateQuery<T>(this IQueryable<T> query, int page, int limit) => query.Skip(page * limit).Take(limit);
+        //public static UserManager a()=> null;
     }
 }

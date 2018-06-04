@@ -22,7 +22,7 @@ namespace ApiRest.Infraestructure.Middlewares
             }
             catch (BaseHttpException e)
             {
-                await context.MakeErrorResponse(e.StatusCode, (string)e.Body);
+                await context.MakeErrorResponse(e.StatusCode, e.Body);
             }
             catch (Exception e)
             {

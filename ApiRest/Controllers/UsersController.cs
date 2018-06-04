@@ -32,6 +32,27 @@ namespace ApiRest.Features.Users
         [HttpGet("{id}")]
         public async Task<UserResult.Full> FindById([FromRoute] FindById.Query query) => await _mediator.Send(query);
 
+        [HttpPatch("email/{id}")]
+        public async Task<UserResult.Full> UpdateEmail([FromRoute] Guid id, [FromBody] UpdateEmail.Command command)
+        {
+            command.Id = id;
+            return await _mediator.Send(command);
+        }
+
+        [HttpPatch("password/{id}")]
+        public async Task<UserResult.Full> UpdatePassword([FromRoute] Guid id, [FromBody] UpdatePassword.Command command)
+        {
+            command.Id = id;
+            return await _mediator.Send(command);
+        }
+
+        [HttpPatch("username/{id}")]
+        public async Task<UserResult.Full> UpdateUserName([FromRoute] Guid id, [FromBody] UpdateUserName.Command command)
+        {
+            command.Id = id;
+            return await _mediator.Send(command);
+        }
+
         [HttpPut("{id}")]
         public async Task<UserResult.Full> Update([FromRoute] Guid id, [FromBody] Update.Command command)
         {

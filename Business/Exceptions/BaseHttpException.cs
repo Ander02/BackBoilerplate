@@ -7,7 +7,7 @@ namespace Business.Exceptions
     public class BaseHttpException : Exception
     {
         public int StatusCode { get; set; }
-        public dynamic Body { get; set; }
+        public object Body { get; set; }
 
         public BaseHttpException(int statusCode)
         {

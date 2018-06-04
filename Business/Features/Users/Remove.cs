@@ -9,7 +9,7 @@ namespace Business.Features.Users
 {
     public class Remove
     {
-        public class Command : IRequest<bool>
+        public class Command : IRequest
         {
             public Guid Id { get; set; }
         }
@@ -22,7 +22,7 @@ namespace Business.Features.Users
             }
         }
 
-        public class Handler : AsyncRequestHandler<Command, bool>
+        public class Handler : AsyncRequestHandler<Command>
         {
             private readonly Db _db;
 
@@ -31,7 +31,7 @@ namespace Business.Features.Users
                 _db = db;
             }
 
-            protected override async Task<bool> HandleCore(Command command)
+            protected override async Task HandleCore(Command command)
             {
                 var user = await _db.Users.FindAsync(command.Id);
 
@@ -39,8 +39,6 @@ namespace Business.Features.Users
 
                 _db.Users.Remove(user);
                 await _db.SaveChangesAsync();
-
-                return true;
             }
         }
     }

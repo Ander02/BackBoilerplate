@@ -5,6 +5,4 @@ namespace Data.Domain.Identitty
     public class UserClaim : IdentityUserClaim<int>
     {
     }
-
-
 }

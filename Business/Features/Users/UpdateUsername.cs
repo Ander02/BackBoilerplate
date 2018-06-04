@@ -8,18 +8,18 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
-using Utility.Extensions;
 
 namespace Business.Features.Users
 {
-    public class Update
+    public class UpdateUserName
     {
         public class Command : IRequest<UserResult.Full>
         {
             public Guid Id { get; set; }
-            public string Name { get; set; }
-            public int? Age { get; set; }
+            public string UserName { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -27,6 +27,7 @@ namespace Business.Features.Users
             public CommandValidator()
             {
                 //RuleFor(u => u.Id).NotEmpty().NotNull();
+                RuleFor(u => u.UserName).NotEmpty().NotNull().EmailAddress();
             }
         }
 
@@ -34,26 +35,29 @@ namespace Business.Features.Users
         {
             private readonly IMapper _mapper;
             private readonly Db _db;
+            private readonly UserManager<User> _userManager;
 
-            public Handler(IMapper mapper, Db db)
+            public Handler(IMapper mapper, Db db, UserManager<User> userManager)
             {
                 _mapper = mapper;
                 _db = db;
+                _userManager = userManager;
             }
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
             {
-                //Find
+                //Find user
                 var user = await _db.Users.FindAsync(command.Id);
 
-                //Verify
+                //Verify user
                 if (user is null) throw new NotFoundException("The " + nameof(user) + " with id: " + command.Id + " doesn't exist");
 
                 if (user.IsDeleted()) throw new BadRequestException("The " + nameof(user) + " is deleted");
 
-                //Change
-                user.Name = command.Name ?? user.Name;
-                user.Age = command.Age ?? user.Age;
+                //Change username
+                var changeResult = await _userManager.SetUserNameAsync(user, command.UserName);
+
+                if (!changeResult.Succeeded) throw new BadRequestException(changeResult.Errors);
 
                 await _db.SaveChangesAsync();
 

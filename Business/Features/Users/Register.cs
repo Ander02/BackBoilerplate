@@ -3,8 +3,10 @@ using Business.Exceptions;
 using Business.Features.Results;
 using Data.Database;
 using Data.Domain;
+using Data.Domain.Identitty;
 using FluentValidation;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
 using Utility.Extensions;
@@ -15,6 +17,7 @@ namespace Business.Features.Users
     {
         public class Command : IRequest<UserResult.Full>
         {
+            public string UserName { get; set; }
             public string Name { get; set; }
             public string Password { get; set; }
             public string Email { get; set; }
@@ -36,11 +39,15 @@ namespace Business.Features.Users
         {
             private readonly IMapper _mapper;
             private readonly Db _db;
+            private readonly UserManager<User> _userManager;
+            private readonly RoleManager<Role> _roleManager;
 
-            public Handler(IMapper mapper, Db db)
+            public Handler(IMapper mapper, Db db, UserManager<User> userManager, RoleManager<Role> roleManager)
             {
                 _mapper = mapper;
                 _db = db;
+                _userManager = userManager;
+                _roleManager = roleManager;
             }
 
             protected override async Task<UserResult.Full> HandleCore(Command command)
@@ -50,11 +57,17 @@ namespace Business.Features.Users
                     Age = command.Age,
                     Email = command.Email,
                     Name = command.Name,
+                    UserName = command.UserName,
                     CreatedAt = DateTime.Now
                 };
-                user.SetPassword(command.Password);
 
-                await _db.Users.AddAsync(user);
+                var userResult = await _userManager.CreateAsync(user, command.Password);
+
+                if (!userResult.Succeeded) throw new BadRequestException(userResult.Errors);
+
+                //user.SetPassword(command.Password);
+
+                //await _db.Users.AddAsync(user);
                 await _db.SaveChangesAsync();
 
                 return _mapper.Map<UserResult.Full>(user);
