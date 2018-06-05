@@ -7,6 +7,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -47,19 +48,16 @@ namespace Business.Features.Authentication.Login
             private readonly IPasswordHasher<User> _hasher;
             private readonly UserManager<User> _userManager;
             private readonly RoleManager<Role> _roleManager;
+            private readonly IConfiguration _configuration;
 
-            public Handler(Db db, IPasswordHasher<User> hasher, UserManager<User> userManager, RoleManager<Role> roleManager)
+            public Handler(Db db, IPasswordHasher<User> hasher, UserManager<User> userManager, RoleManager<Role> roleManager, IConfiguration configuration)
             {
                 _db = db;
                 _hasher = hasher;
                 _userManager = userManager;
                 _roleManager = roleManager;
+                _configuration = configuration;
             }
-
-            //Move to settings.json after
-            private const string _tokenKey = "66B6EF09E0CBE5DCEDE4BD5069C5A41D156D2E786A73EB1EB997D46C488B0DF9C9481655004712047AA11323292D1455C5A7AAF9EDD03B6CBA76B6300160A5DC";
-            private const string _tokenIssuer = "Backboilerplate";
-            private const string _tokenAudience = "WEB";
 
             protected override async Task<Result> HandleCore(Command command)
             {
@@ -72,7 +70,6 @@ namespace Business.Features.Authentication.Login
                 if (_hasher.VerifyHashedPassword(user, user.PasswordHash, command.Password) != PasswordVerificationResult.Success) throw new UnauthorizedException("This user hasn't acess");
 
                 //Get Roles and Claims
-                var userRoles = await _userManager.GetRolesAsync(user);
                 var userClaims = await _userManager.GetClaimsAsync(user);
 
                 var claims = new[]
@@ -82,15 +79,15 @@ namespace Business.Features.Authentication.Login
                 }.Union(userClaims);
 
                 //Create Token
-                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenKey));
+                var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"]));
 
                 var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
-                var securityToken = new JwtSecurityToken(_tokenIssuer,
-                                                 _tokenAudience,
-                                                 claims,
-                                                 expires: DateTime.Now.AddHours(1),
-                                                 signingCredentials: credentials);
+                var securityToken = new JwtSecurityToken(issuer: _configuration["Token:Issuer"],
+                                                         audience: _configuration["Token:Audience"],
+                                                         claims: claims,
+                                                         expires: DateTime.Now.AddHours(1),
+                                                         signingCredentials: credentials);
 
                 return new Result
                 {

@@ -3,10 +3,14 @@ using ApiRest.Infraestructure.Middlewares;
 using Business;
 using Data;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Text;
 
 namespace ApiRest
 {
@@ -38,11 +42,37 @@ namespace ApiRest
 
             DataInjector.RegisterServices(Configuration, services);
 
+            //Authentication
+            services.AddAuthentication(config =>
+            {
+                config.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                config.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(config =>
+            {
+                config.RequireHttpsMetadata = false;
+                config.SaveToken = true;
+
+                config.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                    ValidateIssuerSigningKey = true,
+
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration["Token:Issuer"],
+
+                    ValidateAudience = true,
+                    ValidAudience = Configuration["Token:Audience"],
+
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             services.AddAuthorization((options) =>
             {
-                options.AddPolicy("Admin", (policy) =>
+                options.AddPolicy("IsAdmin", (policy) =>
                 {
-                    
+                    policy.RequireClaim("Role", "Admin");
                 });
             });
         }

@@ -1,6 +1,8 @@
-﻿using Business.Features.Results;
+﻿using ApiRest.Infraestructure.Authentication;
+using Business.Features.Results;
 using Business.Features.Users;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -60,6 +62,8 @@ namespace ApiRest.Features.Users
             return await _mediator.Send(command);
         }
 
+        [JwtAuth]
+        [Authorize(Policy = "IsAdmin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] Delete.Command command)
         {
@@ -68,6 +72,8 @@ namespace ApiRest.Features.Users
             return NoContent();
         }
 
+        [JwtAuth]
+        [Authorize(Policy = "IsAdmin")]
         [HttpDelete("remove/{id}")]
         public async Task<IActionResult> Remove([FromRoute] Remove.Command command)
         {

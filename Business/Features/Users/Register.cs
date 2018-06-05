@@ -8,8 +8,9 @@ using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Utility.Extensions;
 
 namespace Business.Features.Users
 {
@@ -22,6 +23,7 @@ namespace Business.Features.Users
             public string Password { get; set; }
             public string Email { get; set; }
             public int Age { get; set; }
+            public string Role { get; set; }
         }
 
         public class CommandValidator : AbstractValidator<Command>
@@ -65,9 +67,14 @@ namespace Business.Features.Users
 
                 if (!userResult.Succeeded) throw new BadRequestException(userResult.Errors);
 
-                //user.SetPassword(command.Password);
+                //Add Role Claim
+                userResult = await _userManager.AddClaimsAsync(user, new List<Claim>
+                {
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, command.Role)
+                });
 
-                //await _db.Users.AddAsync(user);
+                if (!userResult.Succeeded) throw new BadRequestException(userResult.Errors);
+
                 await _db.SaveChangesAsync();
 
                 return _mapper.Map<UserResult.Full>(user);
