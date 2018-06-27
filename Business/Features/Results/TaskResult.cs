@@ -1,5 +1,4 @@
-﻿using Data.Domain;
-using System;
+﻿using System;
 
 namespace Business.Features.Results
 {

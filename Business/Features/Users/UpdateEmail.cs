@@ -9,7 +9,6 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
-using Utility.Extensions;
 
 namespace Business.Features.Users
 {

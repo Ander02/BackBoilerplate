@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
-using Business.Features.Results.Mappers;
 using MediatR;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

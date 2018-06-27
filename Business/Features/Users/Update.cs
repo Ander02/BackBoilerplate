@@ -2,14 +2,11 @@
 using Business.Exceptions;
 using Business.Features.Results;
 using Data.Database;
-using Data.Domain;
 using Data.Extensions;
 using FluentValidation;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using System;
 using System.Threading.Tasks;
-using Utility.Extensions;
 
 namespace Business.Features.Users
 {
